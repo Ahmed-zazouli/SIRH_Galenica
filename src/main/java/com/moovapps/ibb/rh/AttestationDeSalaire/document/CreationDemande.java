@@ -53,9 +53,6 @@ public class CreationDemande extends BaseDocumentExtension {
 		}else if(property.getName().equals("isAttestationCachetee")){
 			onAttestationDemandeChange();*/
 		}else if(property.getName().equals("DemandeurDonnee")){
-			IStorageResource demandeurDonnee = (IStorageResource) getWorkflowInstance().getValue("DemandeurDonnee");
-			IUser demandeur = demandeurDonnee!=null?(IUser) demandeurDonnee.getValue("Salarie"):null;
-			getWorkflowInstance().setValue("Demandeur2",demandeur);
 			onDemandeurChange();
 		}
 		super.onPropertyChanged(property);
@@ -168,33 +165,30 @@ public class CreationDemande extends BaseDocumentExtension {
 	}
 
 	public void setDemandeurFields() {
-		Object demandeurObject = document.getValue("Demandeur2");
-		IUser demandeur = null;
-		//if (demandeurObject != null) {
-			demandeur = (IUser) document.getValue("Demandeur2");
+		IStorageResource demandeurDonnee = (IStorageResource) document.getValue("DemandeurDonnee");
 		
-		document.setValue("Matricule", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Matricule") : null);
-		document.setValue("TitreDemandeur", demandeurObject != null ? demandeur.getTitle() : null);
-		document.setValue("Nom", demandeurObject != null ? demandeur.getLastName() : null);
-		document.setValue("Prenom", demandeurObject != null ? demandeur.getFirstName() : null);
-		document.setValue("CIN", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("CIN") : null);
-		document.setValue("DateDeNaissance", demandeurObject != null ? demandeur.getBirthday() : null);
-		document.setValue("NImmatriculationCNSS", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("NCNSS") : null);
-		document.setValue("EtatCivil", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("EtatCivil") : null);
-		document.setValue("NombreEnfants", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("NombreEnfants") : null);
-		document.setValue("Sex", demandeurObject != null ? demandeur.getSex() : null);
-		document.setValue("NumeroDeTelephone", demandeurObject != null ? demandeur.getMobilePhoneNumber() : null);
-		document.setValue("Adresse", demandeurObject != null ? demandeur.getAddress1() != null ?  demandeur.getAddress1() +  " " : "" + demandeur.getAddress2() !=null ? demandeur.getAddress2():""  : null);
-		document.setValue("Direction", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Direction") : null);
-		document.setValue("Departement", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Departement") : null);
-		document.setValue("Fonction", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Fonction") : null);
-		document.setValue("Categorie", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Categorie") : null);
-		document.setValue("TypeDeContrat", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("ContractType") : null);
-		document.setValue("CategorieDeSalaire", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("CategorieDeSalairee") : null);
-		document.setValue("DateDEmbauche", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("DateDEmbauche") : null);
-		document.setValue("NImmatriculationCIMR", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("NCIMR") : null);
+		document.setValue("Matricule", demandeurDonnee != null ? demandeurDonnee.getValue("Matricule") : null);
+		document.setValue("TitreDemandeur", demandeurDonnee != null ? demandeurDonnee.getValue("Title") : null);
+		document.setValue("Nom", demandeurDonnee != null ? demandeurDonnee.getValue("LastName") : null);
+		document.setValue("Prenom", demandeurDonnee != null ? demandeurDonnee.getValue("FirstName") : null);
+		document.setValue("CIN", demandeurDonnee != null ? demandeurDonnee.getValue("CIN") : null);
+		document.setValue("DateDeNaissance", demandeurDonnee != null ? demandeurDonnee.getValue("Birthday") : null);
+		document.setValue("NImmatriculationCNSS", demandeurDonnee != null ? demandeurDonnee.getValue("NCNSS") : null);
+		document.setValue("EtatCivil", demandeurDonnee != null ? demandeurDonnee.getValue("EtatCivil") : null);
+		document.setValue("NombreEnfants", demandeurDonnee != null ? demandeurDonnee.getValue("NombreEnfants") : null);
+		document.setValue("Sex", demandeurDonnee != null ? demandeurDonnee.getValue("Sex") : null);
+		document.setValue("NumeroDeTelephone", demandeurDonnee != null ? demandeurDonnee.getValue("MobilePhoneNumber") : null);
+		document.setValue("Adresse", demandeurDonnee != null ? (demandeurDonnee.getValue("Address1") != null ?  demandeurDonnee.getValue("Address1") +  " " : "" + (demandeurDonnee.getValue("Address2") !=null ? demandeurDonnee.getValue("Address2"):"")) : null);
+		document.setValue("Direction", demandeurDonnee != null ? demandeurDonnee.getValue("Direction") : null);
+		document.setValue("Departement", demandeurDonnee != null ? demandeurDonnee.getValue("Departement") : null);
+		document.setValue("Fonction", demandeurDonnee != null ? demandeurDonnee.getValue("Fonction") : null);
+		document.setValue("Categorie", demandeurDonnee != null ? demandeurDonnee.getValue("Categorie") : null);
+		document.setValue("TypeDeContrat", demandeurDonnee != null ? demandeurDonnee.getValue("ContractType") : null);
+		document.setValue("CategorieDeSalaire", demandeurDonnee != null ? demandeurDonnee.getValue("CategorieDeSalaire") : null);
+		document.setValue("DateDEmbauche", demandeurDonnee != null ? demandeurDonnee.getValue("DateDEmbauche") : null);
+		document.setValue("NImmatriculationCIMR", demandeurDonnee != null ? demandeurDonnee.getValue("NCIMR") : null);
 		Date dateEmbauche = null;
-		if (demandeurObject != null && document.getValue("DateDEmbauche") != null) {
+		if (demandeurDonnee != null && document.getValue("DateDEmbauche") != null) {
 			dateEmbauche = (Date) document.getValue("DateDEmbauche");
 		}
 		int anciennete = 0;
@@ -205,28 +199,28 @@ public class CreationDemande extends BaseDocumentExtension {
 		document.setValue("AncienneteInDetail", dateEmbauche != null ? getAncienneteInDetail(dateEmbauche) : null);
 		document.setValue("DateDEmbaucheSansH", dateEmbauche != null ? simpleFormat.format(dateEmbauche) : null);
 		document.setValue("DateCreationSansH", dateEmbauche != null ? simpleFormat.format(new Date()) : null);
-		document.setValue("DateDeTitularisation", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("DateDeTitularisation") : null);
-		document.setValue("DateDEnregistrement", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("DateDEnregistrement") : null);
-		document.setValue("DateDeSortie", demandeurObject != null ? demandeur.getExit() : null);
+		document.setValue("DateDeTitularisation", demandeurDonnee != null ? demandeurDonnee.getValue("DateDeTitularisation") : null);
+		document.setValue("DateDEnregistrement", demandeurDonnee != null ? demandeurDonnee.getValue("DateDEnregistrement") : null);
+		document.setValue("DateDeSortie", demandeurDonnee != null ? demandeurDonnee.getValue("DateDeSortie") : null);
 		Date dateSortie = null;
-		if (demandeurObject != null && document.getValue("DateDeSortie") != null) {
+		if (demandeurDonnee != null && document.getValue("DateDeSortie") != null) {
 			dateSortie = (Date) document.getValue("DateDeSortie");
 		}
-		document.setValue("DateDeSortieSansH", demandeurObject != null && dateSortie != null  ? simpleFormat.format(dateSortie) : null);
-		document.setValue("MotifSortie", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("MotifSortie") : null);
-		document.setValue("Banque", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Banque") : null);
-		document.setValue("NCompteBancaire", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("NCompteBancaire") : null);
+		document.setValue("DateDeSortieSansH", dateSortie != null  ? simpleFormat.format(dateSortie) : null);
+		document.setValue("MotifSortie", demandeurDonnee != null ? demandeurDonnee.getValue("MotifSortie") : null);
+		document.setValue("Banque", demandeurDonnee != null ? demandeurDonnee.getValue("Banque") : null);
+		document.setValue("NCompteBancaire", demandeurDonnee != null ? demandeurDonnee.getValue("NCompteBancaire") : null);
 		
-		document.setValue("SuperieurHierarchique", demandeurObject != null ? demandeur.getHierarchicalManager() : null);
-		document.setValue("Societe", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Societe") : null);
-		document.setValue("NomSociete", demandeurObject != null ? (String)((IStorageResource)document.getValue("Societe")).getValue("sys_Title") : null);
+		document.setValue("SuperieurHierarchique", demandeurDonnee != null ? demandeurDonnee.getValue("HierarchicalManager") : null);
+		document.setValue("Societe", demandeurDonnee != null ? demandeurDonnee.getValue("Societe") : null);
+		document.setValue("NomSociete", document.getValue("Societe") != null ? (String)((IStorageResource)document.getValue("Societe")).getValue("sys_Title") : null);
 		onDemandeurSocieteChange();
 		
-		document.setValue("Fonction", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("Fonction") : null);
-		document.setValue("Salaire", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("SalaireDeBase") : null);
-		document.setValue("SalaireBrut", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("SalaireBrut") : null);
-		document.setValue("MontantMensuelDeNoteDeFrais", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("MontantMensuelDeNoteDeFrais") : null);
-		document.setValue("Agence", demandeurObject != null ? demandeur.getExtendedAttributes().getValue("AgenceBancaire") : null);
+		document.setValue("Fonction", demandeurDonnee != null ? demandeurDonnee.getValue("Fonction") : null);
+		document.setValue("Salaire", demandeurDonnee != null ? demandeurDonnee.getValue("SalaireDeBase") : null);
+		document.setValue("SalaireBrut", demandeurDonnee != null ? demandeurDonnee.getValue("SalaireBrutDH") : null);
+		document.setValue("MontantMensuelDeNoteDeFrais", demandeurDonnee != null ? demandeurDonnee.getValue("MontantMensuelDeNoteDeFrais") : null);
+		document.setValue("Agence", demandeurDonnee != null ? demandeurDonnee.getValue("AgenceBancaire") : null);
          document.save(getDirectoryModule().getSysadminContext());
 		StringNumberConverter stringNumberConverter = new StringNumberConverter();
 		//document.setValue("TauxHoraireEnTexte", stringNumberConverter.ConvertNumber((Number)document.getValue("TauxHoraire")));
